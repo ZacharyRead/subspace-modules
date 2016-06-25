@@ -24,7 +24,7 @@ local Iarenaman *aman;
 local override_key_t ok_Doormode;
 
 /************************************************************************/
-/*						  Player Commands							 */
+/*                         Player Commands                              */
 /************************************************************************/
 
 local helptext_t doors =
@@ -96,7 +96,7 @@ local void cDoors(const char *command, const char *params, Player *p, const Targ
 }
 
 /************************************************************************/
-/*							Module Init							   */
+/*                           Module Init                                */
 /************************************************************************/
 
 EXPORT const char info_doors[] = "Doors v0.5";
