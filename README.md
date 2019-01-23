@@ -1,4 +1,4 @@
-#SubSpace/Continuum modules
+# SubSpace/Continuum modules
 
 The following repository contains a number of modules for the game server "A Small SubSpace Server (ASSS)" that I have worked on. Many, if not most of these modules are written in C and were used in the zone Devastation.
 
