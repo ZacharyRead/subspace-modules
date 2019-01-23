@@ -322,7 +322,7 @@ local void Begin(Player *host, Arena *arena, const char *params)
     else
     {
         adata->started = 1;
-    }		
+    }        
     /* Check top score */
     db->Query(db_gettop, host, 1, "SELECT * FROM `racestats` WHERE arena=? AND time=(SELECT MIN(time) FROM racestats WHERE arena=?);", host->arena->basename, host->arena->basename);
 
@@ -407,16 +407,16 @@ local void Begin(Player *host, Arena *arena, const char *params)
     pd->Lock();
     FOR_EACH_PLAYER(d)
     {
-		if (d->arena == arena)
-		{
-			cs->SendClientSettings(d);
+        if (d->arena == arena)
+        {
+            cs->SendClientSettings(d);
 
-			Target target;
-			target.type = T_PLAYER;
-			target.u.p = d;
-			game->GivePrize(&target, PRIZE_WARP, 1);
-			game->ShipReset(&target);
-		}
+            Target target;
+            target.type = T_PLAYER;
+            target.u.p = d;
+            game->GivePrize(&target, PRIZE_WARP, 1);
+            game->ShipReset(&target);
+        }
     }
     pd->Unlock();
 
@@ -493,29 +493,29 @@ local int TimeUp(void *p)
     pd->Lock();
     FOR_EACH_PLAYER(g)
     {
-		if (g->arena == arena)
-		{
-			cs->SendClientSettings(g);
+        if (g->arena == arena)
+        {
+            cs->SendClientSettings(g);
 
-			if (g->p_ship != SHIP_SPEC)
-			{
-				Target target;
-				target.type = T_PLAYER;
-				target.u.p = g;
-				
-				game->ShipReset(&target); 
-				game->GivePrize(&target, PRIZE_ROCKET, 1);
+            if (g->p_ship != SHIP_SPEC)
+            {
+                Target target;
+                target.type = T_PLAYER;
+                target.u.p = g;
+                
+                game->ShipReset(&target); 
+                game->GivePrize(&target, PRIZE_ROCKET, 1);
 
-				if (adata->mystery)
-				{
-					game->GivePrize(&target, PRIZE_CLOAK, 1);
-					game->GivePrize(&target, PRIZE_STEALTH, 1);
-				}
+                if (adata->mystery)
+                {
+                    game->GivePrize(&target, PRIZE_CLOAK, 1);
+                    game->GivePrize(&target, PRIZE_STEALTH, 1);
+                }
 
-				Pdata *pdata = PPDATA(g, playerKey);
-				pdata->won = 0;
-			}
-		}
+                Pdata *pdata = PPDATA(g, playerKey);
+                pdata->won = 0;
+            }
+        }
     }
     pd->Unlock();
 
@@ -553,18 +553,18 @@ local int RocketArea(void *p)
     pd->Lock();
     FOR_EACH_PLAYER(g)
     {
-		if (g->arena == host->arena)
-		{
-			int x = g->position.x >> 4;
-			int y = g->position.y >> 4;
-			if ((g->p_ship != SHIP_SPEC) && (mapdata->Contains(rgn, x, y)))
-			{
-				Target target;
-				target.type = T_PLAYER;
-				target.u.p = g;
-				game->GivePrize(&target, PRIZE_ROCKET, 1);
-			}
-		}
+        if (g->arena == host->arena)
+        {
+            int x = g->position.x >> 4;
+            int y = g->position.y >> 4;
+            if ((g->p_ship != SHIP_SPEC) && (mapdata->Contains(rgn, x, y)))
+            {
+                Target target;
+                target.type = T_PLAYER;
+                target.u.p = g;
+                game->GivePrize(&target, PRIZE_ROCKET, 1);
+            }
+        }
     }
     pd->Unlock();
     
@@ -604,17 +604,17 @@ local void Stop(Arena* arena)
     pd->Lock();
     FOR_EACH_PLAYER(p)
     {
-		if (p->arena == arena)
-		{
-			/* Send new door settings */
-			cs->SendClientSettings(p);
+        if (p->arena == arena)
+        {
+            /* Send new door settings */
+            cs->SendClientSettings(p);
         
         /* Warp all players */
 //        Target target;
 //        target.type = T_PLAYER;
 //        target.u.p = p;
 //        game->GivePrize(&target, 7, 1);
-		}
+        }
     }
     pd->Unlock();
 
@@ -745,9 +745,9 @@ local void EnterRegion(Player *p, Region *rgn, int x, int y, int entering)
     {
         if (g->arena == p->arena)
         {
-        	Pdata *gdata = PPDATA(g, playerKey);
-        	if (g->p_ship != SHIP_SPEC && gdata->won == 0)
-        		remaining++;
+            Pdata *gdata = PPDATA(g, playerKey);
+            if (g->p_ship != SHIP_SPEC && gdata->won == 0)
+                remaining++;
         }
     }
     pd->Unlock();

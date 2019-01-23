@@ -33,7 +33,7 @@
 /* Player data */
 typedef struct Pdata
 {
-	int kills;        //the number of kills a player has acquired
+    int kills;        //the number of kills a player has acquired
 } Pdata;
 
 local int playerKey;
@@ -42,11 +42,11 @@ local int playerKey;
 typedef struct Adata
 {
     int rkill;         //the required number of kills to win
-	int lockships;     //0 = no, 1 = ships are restricted
-	int started;       //0 = no game, 1 = pending, 2 = started
-	int defaultship;   //this is the default ship if someone happens to change to a restricted ship
-	int jship;         //the jugger's ship
-	int jlockship;     //0 = no, 1 = jugger's ship is restricted
+    int lockships;     //0 = no, 1 = ships are restricted
+    int started;       //0 = no game, 1 = pending, 2 = started
+    int defaultship;   //this is the default ship if someone happens to change to a restricted ship
+    int jship;         //the jugger's ship
+    int jlockship;     //0 = no, 1 = jugger's ship is restricted
 } Adata;
 
 local int arenaKey;
@@ -385,8 +385,8 @@ local int TimeUp(void *p)
 /* Check if players have left the arena or specced. */
 local void LCheck(Arena *arena, Player *pe)
 {
-	Player *winner;
-	
+    Player *winner;
+    
     Player *p;
     Link *link;
     int i = 0;
@@ -417,9 +417,9 @@ local void Check(Player *p)
 {
     Pdata *pdata = PPDATA(p, playerKey);
     Adata *adata = P_ARENA_DATA(p->arena, arenaKey);
-	
-	if (!pdata->kills)
-		pdata->kills = 0;
+    
+    if (!pdata->kills)
+        pdata->kills = 0;
 
     if (pdata->kills == adata->rkill)
     {
@@ -502,17 +502,17 @@ local void Stop(Arena* arena)
     pd->Lock();
     FOR_EACH_PLAYER(p)
     {
-		if (p->arena == arena)
-		{
-			/* Warp all players */
-			Target target;
-			target.type = T_PLAYER;
-			target.u.p = p;
-			game->GivePrize(&target, 7, 1);
-			
-			Pdata *pdata = PPDATA(p, playerKey);
-			pdata->kills = 0;
-		}
+        if (p->arena == arena)
+        {
+            /* Warp all players */
+            Target target;
+            target.type = T_PLAYER;
+            target.u.p = p;
+            game->GivePrize(&target, 7, 1);
+            
+            Pdata *pdata = PPDATA(p, playerKey);
+            pdata->kills = 0;
+        }
     }
     pd->Unlock();
 
@@ -545,10 +545,10 @@ local void Kill(Arena *arena, Player *k, Player *p, int bounty, int flags, int p
     {
         /* Let's add to the number of kills the juggernaut has. */
         Pdata *pdata = PPDATA(k, playerKey);
-		
-		if (!pdata->kills)
-			pdata->kills = 0;
-		
+        
+        if (!pdata->kills)
+            pdata->kills = 0;
+        
         pdata->kills++;
 
         Check(k);
@@ -619,29 +619,29 @@ local void ShipFreqChange(Player *p, int newship, int oldship, int newfreq, int 
 /* Check if a player leaves the arena. */
 local void PlayerAction(Player *p, int action, Arena *arena)
 {
-	if (!p->arena)
-		return;
+    if (!p->arena)
+        return;
     //CheckPlayers(arena);
-	
+    
     if ((action == PA_DISCONNECT) || (action == PA_LEAVEARENA))
-	{
+    {
         LCheck(arena, p);
-	}
-	
+    }
+    
     /* Send a new player the status of the game. */
     if ((action == PA_ENTERARENA) || (action == PA_ENTERGAME))
     {
-		if (p->arena == arena && playerKey)
-		{
-			//chat->SendArenaSoundMessage(arena, 5, "DEBUG 003");
-			Pdata *pdata = PPDATA(p, playerKey);
-			if (!pdata)
-				return;
-			
-			Adata *adata = P_ARENA_DATA(p->arena, arenaKey);
-			pdata->kills = 0;
-			chat->SendSoundMessage(p, 26, "We are playing Jugger to %i %s.", adata->rkill, adata->rkill == 1 ? "kill" : "kills");
-		}
+        if (p->arena == arena && playerKey)
+        {
+            //chat->SendArenaSoundMessage(arena, 5, "DEBUG 003");
+            Pdata *pdata = PPDATA(p, playerKey);
+            if (!pdata)
+                return;
+            
+            Adata *adata = P_ARENA_DATA(p->arena, arenaKey);
+            pdata->kills = 0;
+            chat->SendSoundMessage(p, 26, "We are playing Jugger to %i %s.", adata->rkill, adata->rkill == 1 ? "kill" : "kills");
+        }
     }
 }
 
@@ -700,19 +700,19 @@ local void cHost(const char *command, const char *params, Player *p, const Targe
     if (!capman->HasCapability(p,CAP_IS_STAFF))
     {
         if (IS_ALLOWED(chat->GetPlayerChatMask(p), MSG_MODCHAT))
-	    {
+        {
             Arena *arena = p->arena;
             if (params)
             {
-    	    	chat->SendModMessage("(Host) {%s} %s: %s", arena->name, p->name, params);
-	       	    chat->SendMessage(p, "Message has been sent to online staff");
+                chat->SendModMessage("(Host) {%s} %s: %s", arena->name, p->name, params);
+                   chat->SendMessage(p, "Message has been sent to online staff");
             }
             else
             {
                 chat->SendMessage(p, "Invalid syntax. Please use ?host <arena/event> to request an event be hosted.");
             }
-		    return;
-	    }
+            return;
+        }
     }
 
     /* Host list or an event if the player is a staff member. */
@@ -725,11 +725,11 @@ local void cHost(const char *command, const char *params, Player *p, const Targe
         chat->SendMessage(p, "            ships: -s(#)");
         chat->SendMessage(p, "      jugger ship: -j(#)");
         chat->SendMessage(p, "Example: ?start jugger -k(5) -s(1,2,3) -j(1)");
-	}
-	else
-	{
+    }
+    else
+    {
         Begin(p, p->arena, params);
-	}
+    }
 }
 
 /* ?stopevent help information */
@@ -762,7 +762,7 @@ local helptext_t rules_help =
 /* Show the rules of the game to the player. */
 local void cRules(const char *command, const char *params, Player *p, const Target *target)
 {
-	chat->SendMessage(p, "Who will be the juggernaught to rule them all?");
+    chat->SendMessage(p, "Who will be the juggernaught to rule them all?");
 }
 
 /************************************************************************/
@@ -785,18 +785,18 @@ EXPORT int MM_jugger(int action, Imodman *mm_, Arena *arena)
     {
         mm = mm_;
 
-		aman = mm->GetInterface(I_ARENAMAN, arena);
-		capman = mm->GetInterface(I_CAPMAN, arena);
+        aman = mm->GetInterface(I_ARENAMAN, arena);
+        capman = mm->GetInterface(I_CAPMAN, arena);
         chat = mm->GetInterface(I_CHAT, arena);
         cmd = mm->GetInterface(I_CMDMAN, arena);
         flags = mm->GetInterface(I_FLAGCORE, arena);
         game = mm->GetInterface(I_GAME, arena);
-		ml = mm->GetInterface(I_MAINLOOP, arena);
-		pd = mm->GetInterface(I_PLAYERDATA, arena);
+        ml = mm->GetInterface(I_MAINLOOP, arena);
+        pd = mm->GetInterface(I_PLAYERDATA, arena);
 
         if (!aman || !chat || !cmd || !flags || !game || !ml || !pd)
-		{
-		    mm->ReleaseInterface(pd);
+        {
+            mm->ReleaseInterface(pd);
             mm->ReleaseInterface(ml);
             mm->ReleaseInterface(game);
             mm->ReleaseInterface(flags);
@@ -805,11 +805,11 @@ EXPORT int MM_jugger(int action, Imodman *mm_, Arena *arena)
             mm->ReleaseInterface(capman);
             mm->ReleaseInterface(aman);
             return MM_FAIL;
-		}
+        }
         else
         {
             playerKey = pd->AllocatePlayerData(sizeof(Pdata));
-			arenaKey  = aman->AllocateArenaData(sizeof(Adata));
+            arenaKey  = aman->AllocateArenaData(sizeof(Adata));
 
             if ((!playerKey)  || (!arenaKey))
             {
@@ -819,13 +819,13 @@ EXPORT int MM_jugger(int action, Imodman *mm_, Arena *arena)
                 mm->ReleaseInterface(flags);
                 mm->ReleaseInterface(cmd);
                 mm->ReleaseInterface(chat);
-				mm->ReleaseInterface(capman);
+                mm->ReleaseInterface(capman);
                 mm->ReleaseInterface(aman);
                 return MM_FAIL;
             }
             else
             {
-				cmd->AddCommand("host", cHost, arena, host_help);
+                cmd->AddCommand("host", cHost, arena, host_help);
                 cmd->AddCommand("start", cHost, arena, host_help);
                 cmd->AddCommand("stopevent", cStopEvent, arena, stop_help);
                 cmd->AddCommand("stop", cStopEvent, arena, stop_help);
@@ -838,7 +838,7 @@ EXPORT int MM_jugger(int action, Imodman *mm_, Arena *arena)
     else if (action == MM_DETACH)
     {
         pd->FreePlayerData(playerKey);
-		aman->FreeArenaData(arenaKey);
+        aman->FreeArenaData(arenaKey);
 
         cmd->RemoveCommand("rules", cRules, arena);
         cmd->RemoveCommand("stop", cStopEvent, arena);
@@ -852,7 +852,7 @@ EXPORT int MM_jugger(int action, Imodman *mm_, Arena *arena)
         mm->ReleaseInterface(flags);
         mm->ReleaseInterface(cmd);
         mm->ReleaseInterface(chat);
-		mm->ReleaseInterface(capman);
+        mm->ReleaseInterface(capman);
         mm->ReleaseInterface(aman);
 
         return MM_OK;

@@ -7,7 +7,7 @@ typedef void (*CreditFunc)(Player *p, int old);
 #define I_CREDITS "credits-1"
 typedef struct Icredits
 {
-	INTERFACE_HEAD_DECL
+    INTERFACE_HEAD_DECL
 
     /** Gets the number of credits a player has
      *

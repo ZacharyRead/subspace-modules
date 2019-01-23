@@ -28,9 +28,9 @@
 /* Player data */
 typedef struct Pdata
 {
-	int score;
-	int kills;
-	int deaths;
+    int score;
+    int kills;
+    int deaths;
 } Pdata;
 
 local int playerKey;
@@ -41,9 +41,9 @@ typedef struct Adata
     int blue;          //blue team has this many goals
     int green;         //green team has this many goals
     int goals;         //number of goals a team needs to win
-	int lockships;     //0 = no, 1 = ships are restricted
-	int started;       //0 = no game, 1 = pending, 2 = started
-	int defaultship;   //this is the default ship if someone happens to change to a restricted ship
+    int lockships;     //0 = no, 1 = ships are restricted
+    int started;       //0 = no game, 1 = pending, 2 = started
+    int defaultship;   //this is the default ship if someone happens to change to a restricted ship
 } Adata;
 
 local int arenaKey;
@@ -352,8 +352,8 @@ local int TimeUp(void *p)
 /* Check if players have left the arena or specced. */
 local void LCheck(Arena *arena, Player *pe)
 {
-	Player *winner;
-	
+    Player *winner;
+    
     Player *p; 
     Link *link;
     int i = 0;
@@ -517,19 +517,19 @@ local void cHost(const char *command, const char *params, Player *p, const Targe
     if (!capman->HasCapability(p,CAP_IS_STAFF))
     {
         if (IS_ALLOWED(chat->GetPlayerChatMask(p), MSG_MODCHAT))
-	    {
+        {
             Arena *arena = p->arena;
             if (params)
             {
-    	    	chat->SendModMessage("(Host) {%s} %s: %s", arena->name, p->name, params);
-	       	    chat->SendMessage(p, "Message has been sent to online staff");
+                chat->SendModMessage("(Host) {%s} %s: %s", arena->name, p->name, params);
+                   chat->SendMessage(p, "Message has been sent to online staff");
             }
             else
             {
                 chat->SendMessage(p, "Invalid syntax. Please use ?host <arena/event> to request an event be hosted.");
             }
-		    return;
-	    }
+            return;
+        }
     }
 
     /* Host list or an event if the player is a staff member. */
@@ -541,11 +541,11 @@ local void cHost(const char *command, const char *params, Player *p, const Targe
         chat->SendMessage(p, "Parameters: goals: -g(#)");
         chat->SendMessage(p, "            ships: -s(#)");
         chat->SendMessage(p, "Example: ?start paintball -g(5) -s(1,2,3)");
-	}
-	else
-	{
+    }
+    else
+    {
         Begin(p, p->arena, params);
-	}
+    }
 }
 
 /* ?stopevent help information */
@@ -578,7 +578,7 @@ local helptext_t rules_help =
 /* Show the rules of the game to the player. */
 local void cRules(const char *command, const char *params, Player *p, const Target *target)
 {
-	chat->SendMessage(p, "Two teams face off in a game of paintball (aka soccer, powerball, deathball).");
+    chat->SendMessage(p, "Two teams face off in a game of paintball (aka soccer, powerball, deathball).");
 }
 
 /************************************************************************/
@@ -601,20 +601,20 @@ EXPORT int MM_paintball(int action, Imodman *mm_, Arena *arena)
     {
         mm = mm_;
 
-		aman = mm->GetInterface(I_ARENAMAN, arena);
-		balls = mm->GetInterface(I_BALLS, arena);
-		capman = mm->GetInterface(I_CAPMAN, arena);
+        aman = mm->GetInterface(I_ARENAMAN, arena);
+        balls = mm->GetInterface(I_BALLS, arena);
+        capman = mm->GetInterface(I_CAPMAN, arena);
         cfg = mm->GetInterface(I_CONFIG, arena);
         chat = mm->GetInterface(I_CHAT, arena);
         cmd = mm->GetInterface(I_CMDMAN, arena);
         cs = mm->GetInterface(I_CLIENTSET, arena);
         game = mm->GetInterface(I_GAME, arena);
-		ml = mm->GetInterface(I_MAINLOOP, arena);
-		pd = mm->GetInterface(I_PLAYERDATA, arena);
+        ml = mm->GetInterface(I_MAINLOOP, arena);
+        pd = mm->GetInterface(I_PLAYERDATA, arena);
 
         if (!aman || !balls || !cfg || !chat || !cmd || !cs || !game || !ml || !pd)
-		{
-		    mm->ReleaseInterface(pd);
+        {
+            mm->ReleaseInterface(pd);
             mm->ReleaseInterface(ml);
             mm->ReleaseInterface(game);
             mm->ReleaseInterface(cs);
@@ -625,11 +625,11 @@ EXPORT int MM_paintball(int action, Imodman *mm_, Arena *arena)
             mm->ReleaseInterface(balls);
             mm->ReleaseInterface(aman);
             return MM_FAIL;
-		}
+        }
         else
         {
             playerKey = pd->AllocatePlayerData(sizeof(Pdata));
-			arenaKey  = aman->AllocateArenaData(sizeof(Adata));
+            arenaKey  = aman->AllocateArenaData(sizeof(Adata));
 
             if ((!playerKey)  || (!arenaKey))
             {
@@ -640,16 +640,16 @@ EXPORT int MM_paintball(int action, Imodman *mm_, Arena *arena)
                 mm->ReleaseInterface(cmd);
                 mm->ReleaseInterface(chat);
                 mm->ReleaseInterface(cfg);
-				mm->ReleaseInterface(capman);
+                mm->ReleaseInterface(capman);
                 mm->ReleaseInterface(balls);
                 mm->ReleaseInterface(aman);
                 return MM_FAIL;
             }
             else
             {
-			    ok_Doors = cs->GetOverrideKey("Door", "Doormode");
+                ok_Doors = cs->GetOverrideKey("Door", "Doormode");
 
-				cmd->AddCommand("host", cHost, arena, host_help);
+                cmd->AddCommand("host", cHost, arena, host_help);
                 cmd->AddCommand("start", cHost, arena, host_help);
                 cmd->AddCommand("stopevent", cStopEvent, arena, stop_help);
                 cmd->AddCommand("stop", cStopEvent, arena, stop_help);
@@ -663,7 +663,7 @@ EXPORT int MM_paintball(int action, Imodman *mm_, Arena *arena)
     else if (action == MM_DETACH)
     {
         pd->FreePlayerData(playerKey);
-		aman->FreeArenaData(arenaKey);
+        aman->FreeArenaData(arenaKey);
 
         cmd->RemoveCommand("rules", cRules, arena);
         cmd->RemoveCommand("stop", cStopEvent, arena);
@@ -678,7 +678,7 @@ EXPORT int MM_paintball(int action, Imodman *mm_, Arena *arena)
         mm->ReleaseInterface(cmd);
         mm->ReleaseInterface(chat);
         mm->ReleaseInterface(cfg);
-		mm->ReleaseInterface(capman);
+        mm->ReleaseInterface(capman);
         mm->ReleaseInterface(balls);
         mm->ReleaseInterface(aman);
 
